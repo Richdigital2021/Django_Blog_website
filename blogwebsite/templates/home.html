@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to Our Blog</h1>
+    <p>Discover amazing stories and insights</p>
+</div>
+
+<div class="posts-grid">
+    {% for post in posts %}
+        <article class="post-card">
+            {% if post.featured_image %}
+                <div class="post-image">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                </div>
+            {% endif %}
+            <div class="post-content">
+                <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                <div class="post-meta">
+                    <span class="author">By {{ post.author.username }}</span>
+                    <span class="date">{{ post.created_at|date:"F d, Y" }}</span>
+                </div>
+                <p class="post-excerpt">{{ post.get_excerpt }}</p>
+                <a href="{{ post.get_absolute_url }}" class="read-more">Read More</a>
+            </div>
+        </article>
+    {% empty %}
+        <div class="no-posts">
+            <h2>No posts yet</h2>
+            <p>Check back soon for new content!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
