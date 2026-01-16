@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,3 +116,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+import os
+
+# ------------------------
+# Static files (CSS, JS)
+# ------------------------
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # For local static files
+
+# ------------------------
+# Media files (uploads like featured_image)
+# ------------------------
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Folder to store uploaded images
+
+# ------------------------
+# Security for production
+# ------------------------
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-this-for-production')
+
+ALLOWED_HOSTS = ['*']  # Replace '*' with your Render domain in production
+
