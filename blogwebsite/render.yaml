@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: django-blog
+    env: python
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn blogwebsite.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: blogwebsite.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*.onrender.com"
+    preDeployCommand: "python manage.py migrate"
